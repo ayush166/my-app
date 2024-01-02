@@ -3,9 +3,21 @@ import { useForm } from 'react-hook-form';
 
 export default function SchoolForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
-        // Handle form submission logic here
+    const onSubmit = async (data) => {
+        const response = await fetch('/api/addschools', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+    
+        const responseData = await response.json();
+        if (response.ok) {
+            console.log('Data submitted successfully', responseData);
+        } else {
+            console.error('Submission failed', responseData);
+        }
     };
 
     return (
